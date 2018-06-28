@@ -89,7 +89,7 @@ def isfloat(str):
 #
 # you must provide the following information
 #
-filename = 'C:\\Users\\RDCHLCAM\\Documents\\RSM\\RSMproject_script_20180626\\newCalibrationSites.csv'
+filename = 'newCalibrationSites.csv'
 
 #
 # this is the main code
@@ -121,11 +121,11 @@ with open(filename) as csvfile:
 #
 #
 
-file_csv1 = open('C:\\Users\\RDCHLCAM\\Documents\\RSM\\test_results\\Global_Error_Calibration.csv', 'w')
+file_csv1 = open('Global_Error_Calibration.csv', 'w')
 file_csv1.write("{0},{1}\n".format("Absolute Error","Relative Error"))
-file_csv2 = open('C:\\Users\\RDCHLCAM\\Documents\\RSM\\test_results\\lessthan200_Error_Calibration.csv', 'w')
+file_csv2 = open('lessthan200_Error_Calibration.csv', 'w')
 file_csv2.write("{0},{1}\n".format("Absolute Error","Relative Error"))
-file_csv3 = open('C:\\Users\\RDCHLCAM\\Documents\\RSM\\test_results\\greaterthan200_Error_Calibration.csv', 'w')
+file_csv3 = open('greaterthan200_Error_Calibration.csv', 'w')
 file_csv3.write("{0},{1}\n".format("Absolute Error","Relative Error"))
 
 #
