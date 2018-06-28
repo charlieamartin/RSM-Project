@@ -2,7 +2,7 @@
 This program reads an excel spreadsheet containing Ohio Basin USGS gages.....
 '''
 import csv
-import urllib2
+import urllib.request, urllib.error, urllib.parse
 import re
 import matplotlib.pyplot as plt
 import numpy as np
@@ -66,7 +66,7 @@ def biasCorrect(sedx, sedy, a, b):
 
     #Calculate beta bias-correction factor Eq. (5) of Kao et al
     beta = sum(epsilon)/sum(tmp)
-    print "beta =",beta
+    print("beta =",beta)
 
     # compute modified concentration values from the paper equation using the x values of the data points
     qhat = (1+beta)*(10.**b)*np_sedx**a
@@ -137,9 +137,9 @@ file_csv3.write("{0},{1}\n".format("Absolute Error","Relative Error"))
 
 for siteno, drainsize in zip(sitenum[1:],drainarea[1:]):
     if not isfloat(drainsize):
-        print '   '
-        print siteno,'with drainange are = ',drainsize
-        print '   '
+        print('   ')
+        print(siteno,'with drainange are = ',drainsize)
+        print('   ')
         continue
 
     drainsize = float(drainsize)
@@ -168,8 +168,10 @@ for siteno, drainsize in zip(sitenum[1:],drainarea[1:]):
     url=url + '&agency_cd=USGS&inventory_output=0&rdb_inventory_output=file&TZoutput=0&pm_cd_compare=Greater%20than&radio_parm_cds=parm_cd_list&radio_multiple_'
     url=url + codes
     url=url + '_attributes=0&format=rdb&qw_sample_wide=wide&rdb_qw_attributes=0&date_format=YYYY-MM-DD&rdb_compression=value&submitted_form=brief_list'
-    page = urllib2.urlopen(url)
-    page_content = page.read()
+    page = urllib.request.urlopen(url)
+
+    # Decode required to ensure the page can be read
+    page_content = page.read().decode('utf-8')
 
     #
     # look for discharge and suspended sediment flags
@@ -199,10 +201,10 @@ for siteno, drainsize in zip(sitenum[1:],drainarea[1:]):
             p8flag = True
 
         if p6flag and p7flag and p8flag:
-            print siteno
-            print p6line
-            print p7line
-            print p8line
+            print(siteno)
+            print(p6line)
+            print(p7line)
+            print(p8line)
             #print("{0:>16}{1:>13}{2:>11}".format('P00061','P70331','P80154'))
             break
 
@@ -213,7 +215,7 @@ for siteno, drainsize in zip(sitenum[1:],drainarea[1:]):
         continue
 
     #
-    # go through the lines again to pull out the data  
+    # go through the lines again to pull out the data
     #
     for line in llist:
         # split the line into words separated by tabs
@@ -248,12 +250,12 @@ for siteno, drainsize in zip(sitenum[1:],drainarea[1:]):
     a,b, pts = compPowerLaw(sedx, sedy, 5)
     plaws.append(pts)
     if drainsize >= 200:
-        print '> 200 drainsize = ', drainsize
+        print('> 200 drainsize = ', drainsize)
         plawg200.append(pts)
         sedxg200.append(sedx)
         sedyg200.append(sedy)
     else :
-        print '< 200 drainsize = ', drainsize
+        print('< 200 drainsize = ', drainsize)
         plawl200.append(pts)
         sedxl200.append(sedx)
         sedyl200.append(sedy)
@@ -268,7 +270,7 @@ for plaw in plaws:
     plawyall.extend(plaw[1])
 
 a,b, pts = compPowerLaw(plawxall,plawyall,5)
-print '   '
+print('   ')
 print('Universal power law coeffs a,b = ',a,b )
 
 #plt.figure()
@@ -311,7 +313,7 @@ for plawl in plawl200:
     plawlyall.extend(plawl[1])
 
 a,b, pts = compPowerLaw(plawlxall,plawlyall,5)
-print '   '
+print('   ')
 print('    < 200 power law coeffs a,b = ',a,b )
 
 #plt.loglog(plawlxall, plawlyall, 'b*')
@@ -352,7 +354,7 @@ for plawg in plawg200:
     plawgyall.extend(plawg[1])
 
 a,b, pts = compPowerLaw(plawgxall,plawgyall,5)
-print '   '
+print('   ')
 print('    > 200 power law coeffs a,b = ',a,b )
 
 #plt.loglog(plawgxall, plawgyall, 'r*')
